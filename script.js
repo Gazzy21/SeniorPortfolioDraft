@@ -2,6 +2,9 @@
 
 import * as THREE from "https://esm.sh/three";
 import { OrbitControls } from "https://esm.sh/three/examples/jsm/controls/OrbitControls.js";
+import { TTFLoader } from 'three/examples/jsm/loaders/TTFLoader';
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
 
 const renderer = new THREE.WebGLRenderer();
 
@@ -25,8 +28,25 @@ scene.add(axesHelper);
 
 const orbit = new OrbitControls(camera, renderer.domElement);
 
-camera.position.set(0, 0, 0);
+camera.position.set(0, 0, 8);
 orbit.update();
+
+const ttfLoader = new TTFLoader();
+ttfLoader.load('fonts/jet_brains_mono_regular.ttf', (json) => {
+  // First parse the font.
+  const jetBrainsFont = fontLoader.parse(json);
+  // Use parsed font as normal.
+  const textGeometry = new TextGeometry('hello world', {
+    height: 2,
+    size: 10,
+    font: jetBrainsFont,
+  });
+  const textMaterial = new THREE.MeshNormalMaterial();
+  const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+  textMesh.position.x = -46;
+  textMesh.position.y = -10;
+  // test.scene.add(textMesh);
+});
 
 const sphereGeometry = new THREE.SphereGeometry(8, 64, 32);
 const sphereMaterial = new THREE.MeshStandardMaterial({
@@ -62,7 +82,7 @@ const gridHelper = new THREE.GridHelper(30);
 scene.add(gridHelper);
 
 function animate() {
-  
+
   sphere.rotation.y += 0.0025;
   sphere.rotation.x += 0.0025;
   sphere.rotation.z += 0.0025;
