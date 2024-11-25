@@ -2,7 +2,6 @@
 
 import * as THREE from "https://esm.sh/three";
 import { OrbitControls } from "https://esm.sh/three/examples/jsm/controls/OrbitControls.js";
-import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 
 const renderer = new THREE.WebGLRenderer();
 
@@ -26,37 +25,17 @@ scene.add(axesHelper);
 
 const orbit = new OrbitControls(camera, renderer.domElement);
 
-camera.position.set(0, 0, 8);
+camera.position.set(0, 0, 0);
 orbit.update();
 
-const loader = new FontLoader();
-
-loader.load( 'fonts/GodOfWar_Regular.json', function (font: THREE.Font ) {
-
-	const geometry = new TextGeometry( 'Hello three.js!', {
-		font: font,
-		size: 80,
-		depth: 5,
-		curveSegments: 12,
-		bevelEnabled: true,
-		bevelThickness: 10,
-		bevelSize: 8,
-		bevelOffset: 0,
-		bevelSegments: 5
-	} );
-
-  const textMesh = new THREE.Mesh(geometry, [
-    new THREE.MeshPhongMaterial({ color: 0xad4000}),
-    new THREE.MeshPhongMaterial({ color: 0x5c2301})
-  ])
-
-  textMesh.castShadow = true
-  textMesh.position.y += 15
-  textMesh.position.z -=40
-  textMesh.position.x = -8
-  textMesh.rotation.y = -0.50
-  scene.add(textMesh)
-} );
+const sphereGeometry = new THREE.SphereGeometry(8, 64, 32);
+const sphereMaterial = new THREE.MeshStandardMaterial({
+  wireframe: true,
+});
+const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+scene.add(sphere);
+sphere.position.set(0, 0, 0);
+sphere.castShadow = true;
 
 const planeGeometry = new THREE.PlaneGeometry(30, 30);
 const planeMaterial = new THREE.MeshStandardMaterial({
@@ -84,8 +63,17 @@ scene.add(gridHelper);
 
 function animate() {
   
+  sphere.rotation.y += 0.0025;
+  sphere.rotation.x += 0.0025;
+  sphere.rotation.z += 0.0025;
 
   renderer.render(scene, camera);
 }
 
 renderer.setAnimationLoop(animate);
+
+window.addEventListener("resize", function () {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
