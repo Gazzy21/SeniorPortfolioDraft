@@ -23,19 +23,19 @@ camera.position.set(0, 0, 10); // Adjusted position for better view of the scene
 // scene.add(axesHelper);
 
 const sphereGeometry = new THREE.SphereGeometry(10, 32, 32); // Sphere with radius 10 and segments 32
-const sphereMaterial = new THREE.PointsMaterial({ 
-  color: 0xffffff, 
+const sphereMaterial = new THREE.PointsMaterial({
+  color: 0xffffff,
 });
-const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial); 
+const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 scene.add(sphere);
 sphere.position.set(0, 0, -100); // Position the sphere in the scene
 sphere.castShadow = true; // Enable shadow casting
 
-const icosahedronGeometry = new THREE.IcosahedronGeometry(45); 
+const icosahedronGeometry = new THREE.IcosahedronGeometry(45);
 const icosahedronMaterial = new THREE.MeshBasicMaterial({
   color: 0xAFFA,
-  transparent: true,  
-  opacity: 0.3        
+  transparent: true,
+  opacity: 0.3
 });
 const icosahedron = new THREE.Mesh(icosahedronGeometry, icosahedronMaterial);
 scene.add(icosahedron);
@@ -56,7 +56,7 @@ const icosahedron2EdgesMaterial = new THREE.LineBasicMaterial({
 });
 const icosahedron2EdgeLines = new THREE.LineSegments(icosahedron2Edges, icosahedron2EdgesMaterial);
 scene.add(icosahedron2EdgeLines);
-icosahedron2EdgeLines.position.set(0,0,-100)
+icosahedron2EdgeLines.position.set(0, 0, -100)
 
 const ambientLight = new THREE.AmbientLight(0x404040);
 scene.add(ambientLight);
@@ -77,7 +77,7 @@ composer.addPass(renderPass);
 composer.addPass(bloomPass);
 
 // Step 1: Create Point Cloud
-const pointCount = 3000; 
+const pointCount = 3000;
 const pointsGeometry = new THREE.BufferGeometry();
 const positions = new Float32Array(pointCount * 3); // 3 values (x, y, z) per point
 const colors = new Float32Array(pointCount * 3); // 3 values (r, g, b) per point
@@ -119,14 +119,14 @@ pointCloud.position.set(0, 0, -20); // Ensure the point cloud is in the same are
 
 // Animation loop
 function animate() {
-  icosahedron.rotation.y += 0.002;  
-  icosahedron2.rotation.y += 0.002; 
+  icosahedron.rotation.y += 0.002;
+  icosahedron2.rotation.y += 0.002;
   icosahedron2EdgeLines.rotation.y += 0.002;
-  icosahedron.rotation.x += 0.002;  
-  icosahedron2.rotation.x += 0.002; 
+  icosahedron.rotation.x += 0.002;
+  icosahedron2.rotation.x += 0.002;
   icosahedron2EdgeLines.rotation.x += 0.002;
-  icosahedron.rotation.z += 0.002;  
-  icosahedron2.rotation.z += 0.002; 
+  icosahedron.rotation.z += 0.002;
+  icosahedron2.rotation.z += 0.002;
   icosahedron2EdgeLines.rotation.z += 0.002;
   sphere.rotation.y -= 0.002;
 
@@ -143,3 +143,37 @@ window.addEventListener("resize", function () {
   renderer.setSize(window.innerWidth, window.innerHeight);
   bloomPass.setSize(window.innerWidth, window.innerHeight);
 });
+
+$(document).ready(function () {
+  $("#enter").on("click", function () {
+    // Target position (zoom level)
+    var targetZ = -89;
+    // Duration for the zoom effect in milliseconds
+    var duration = 5000; // 5 seconds
+    var fadeduration = 1000;
+    var startZ = camera.position.z;
+    var startTime = performance.now();
+
+    // Fade out the text element (enterdiv)
+    $("#enterdiv").fadeOut(fadeduration);
+
+    // Animation function for zoom
+    function animateZoom() {
+      var elapsed = performance.now() - startTime;
+      var progress = Math.min(elapsed / duration, 1); // Ensure progress doesn't exceed 1
+
+      // Linearly interpolate the Z position for camera zoom
+      camera.position.z = THREE.MathUtils.lerp(startZ, targetZ, progress);
+
+      // Continue animating if the progress is less than 1
+      if (progress < 1) {
+        requestAnimationFrame(animateZoom);
+      }
+    }
+
+    // Start the zoom animation
+    animateZoom();
+  });
+});
+
+
