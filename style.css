@@ -8,7 +8,7 @@ canvas {
 
 .headingdiv {
   position: absolute;
-  top: 50%;
+  top: 88%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
@@ -22,8 +22,10 @@ canvas {
 }
 
 .headingnametext {
-  font-size: 8vw;
+  font-size: 5vw;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  font-family: "Orbitron", sans-serif;
+  margin: 0;
 }
 
 .headingtext {
