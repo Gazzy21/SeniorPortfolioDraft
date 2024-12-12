@@ -106,7 +106,7 @@ pointsGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
 // Step 2: Create a PointsMaterial
 const pointsMaterial = new THREE.PointsMaterial({
-  size: 0.05,
+  size: 0.075,
   vertexColors: true, // Enable vertex colors (important for individual point colors)
   transparent: true,
   opacity: 0.8
@@ -145,6 +145,11 @@ window.addEventListener("resize", function () {
 });
 
 $(document).ready(function () {
+
+  setTimeout(function () {
+    $('.splash-wrapper img').fadeIn(500);
+  }, 3000);
+
   $("#enter").on("click", function () {
     // Target position (zoom level)
     var targetZ = -89;

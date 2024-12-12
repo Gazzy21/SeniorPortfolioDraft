@@ -41,3 +41,44 @@ canvas {
   color: black;
   text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;
 }
+
+div#loader-container img {
+  max-width:500px;
+}
+/* Loader animation styles */
+.splash-wrapper {
+  display: none; /* Initially hidden */
+  position: fixed;
+  z-index: 9999;
+  background: url('boxloader.png') no-repeat center center; /* Correct usage of background property */
+  background-size: cover; /* Ensures the image covers the entire area */
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  animation-name: slideOut;
+  animation-fill-mode: forwards;
+  animation-duration: 0.65s;
+  animation-delay: 5s;
+  top: 0;
+}
+
+
+@keyframes slideOut {
+  from {
+    margin-left: 0vw;
+  }
+  to {
+    margin-left: -100vw;
+  }
+}
+@media screen and (max-width:767px) {
+div#loader-container {
+  background-size: cover;
+}
+div#loader-container img {
+  max-width: 300px;
+}
+}
