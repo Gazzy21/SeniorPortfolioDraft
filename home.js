@@ -1,5 +1,4 @@
 import * as THREE from "https://esm.sh/three";
-// import { OrbitControls } from "https://esm.sh/three/examples/jsm/controls/OrbitControls.js";
 import { EffectComposer } from 'https://esm.sh/three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'https://esm.sh/three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'https://esm.sh/three/examples/jsm/postprocessing/UnrealBloomPass.js';
@@ -10,6 +9,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x303030);
 
 const camera = new THREE.PerspectiveCamera(
   75,
@@ -17,52 +17,17 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.set(0, 0, -10);  // Move the camera away from the objects
+camera.position.set(0, 0, 10); // Adjusted position for better view of the scene
 
-const axesHelper = new THREE.AxesHelper(5);
-scene.add(axesHelper);
-
-// const orbit = new OrbitControls(camera, renderer.domElement);
-// orbit.update();
-
-const cylinderGeometry = new THREE.CylinderGeometry( 5, 5, 5, 32 ); 
-const cylinderMaterial = new THREE.MeshStandardMaterial( {color: 0xaffa} ); 
-const cylinder = new THREE.Mesh( cylinderGeometry, cylinderMaterial ); 
-scene.add(cylinder);
-cylinder.position.set(-40,0,-50);
-cylinder.rotation.x = 0.5 * Math.PI;
-cylinder.rotation.y = 1 * Math.PI;
-
-const octahedronGeometry = new THREE.OctahedronGeometry(15); // You can adjust the size as needed
-const octahedronMaterial = new THREE.MeshBasicMaterial({
-  color: 0xAFFA,
-  wireframe: true,
-});
-const octahedron = new THREE.Mesh(octahedronGeometry, octahedronMaterial);
-scene.add(octahedron);
-octahedron.position.set(0, -30, -100);
-octahedron.castShadow = true;
-
-// const planeGeometry = new THREE.PlaneGeometry(30, 30);
-// const planeMaterial = new THREE.MeshStandardMaterial({
-//   color: 0x808080,
-//   side: THREE.DoubleSide
-// });
-// const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-// scene.add(plane);
-// plane.rotation.x = -0.5 * Math.PI;
-// plane.receiveShadow = true;
-
-const ambientLight = new THREE.AmbientLight(0x404040); // soft white light
+// Ambient Light
+const ambientLight = new THREE.AmbientLight(0x404040);
 scene.add(ambientLight);
 
+// Directional Light
 const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
 scene.add(directionalLight);
 directionalLight.position.set(-30, 50, 0);
 directionalLight.castShadow = true;
-
-const dLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5);
-scene.add(dLightHelper);
 
 const composer = new EffectComposer(renderer);
 const renderPass = new RenderPass(scene, camera);
@@ -71,8 +36,8 @@ const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, windo
 composer.addPass(renderPass);
 composer.addPass(bloomPass);
 
+// Animation loop
 function animate() {
-  
   composer.render();
 }
 
@@ -82,7 +47,52 @@ window.addEventListener("resize", function () {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
-
-  // Update UnrealBloomPass size on window resize
   bloomPass.setSize(window.innerWidth, window.innerHeight);
+});
+
+$(document).ready(function () {
+  function showLoadingScreen() {
+    $(".splash-wrapper").fadeIn(1500); // Fade in the loading screen
+  }
+
+  function hideLoadingScreen() {
+    $(".splash-wrapper").fadeOut(1500); // Fade out the loading screen
+  }
+
+  setTimeout(function () {
+    hideLoadingScreen(); // Initially hide the loading screen
+  }, 3000);
+
+  $("#enter").on("click", function () {
+    // Target position (zoom level)
+    var targetZ = -89;
+    // Duration for the zoom effect in milliseconds
+    var duration = 5000; // 5 seconds
+    var fadeduration = 1000;
+    var startZ = camera.position.z;
+    var startTime = performance.now();
+
+    // Fade out the text element (enterdiv)
+    $("#enterdiv").fadeOut(fadeduration);
+
+    // Animation function for zoom
+    function animateZoom() {
+      var elapsed = performance.now() - startTime;
+      var progress = Math.min(elapsed / duration, 1); // Ensure progress doesn't exceed 1
+
+      // Linearly interpolate the Z position for camera zoom
+      camera.position.z = THREE.MathUtils.lerp(startZ, targetZ, progress);
+
+      // Continue animating if the progress is less than 1
+      if (progress < 1) {
+        requestAnimationFrame(animateZoom);
+      } else {
+        // Show loading screen again when zoom animation ends
+        showLoadingScreen();
+      }
+    }
+
+    // Start the zoom animation
+    animateZoom();
+  });
 });
