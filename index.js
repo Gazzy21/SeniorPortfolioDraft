@@ -19,6 +19,9 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.set(0, 0, 10); // Adjusted position for better view of the scene
 
+// const axesHelper = new THREE.AxesHelper(5);
+// scene.add(axesHelper);
+
 const sphereGeometry = new THREE.SphereGeometry(10, 32, 32); // Sphere with radius 10 and segments 32
 const sphereMaterial = new THREE.PointsMaterial({
   color: 0xffffff,
@@ -28,32 +31,32 @@ scene.add(sphere);
 sphere.position.set(0, 0, -100); // Position the sphere in the scene
 sphere.castShadow = true; // Enable shadow casting
 
-const dodecahedronGeometry = new THREE.DodecahedronGeometry(45);
-const dodecahedronMaterial = new THREE.MeshBasicMaterial({
+const icosahedronGeometry = new THREE.IcosahedronGeometry(45, 1);
+const icosahedronMaterial = new THREE.MeshBasicMaterial({
   color: 0xAFFA,
   transparent: true,
   opacity: 0.3
 });
-const dodecahedron = new THREE.Mesh(dodecahedronGeometry, dodecahedronMaterial);
-scene.add(dodecahedron);
-dodecahedron.position.set(0, 0, -100);
-dodecahedron.castShadow = true;
+const icosahedron = new THREE.Mesh(icosahedronGeometry, icosahedronMaterial);
+scene.add(icosahedron);
+icosahedron.position.set(0, 0, -100);
+icosahedron.castShadow = true;
 
-const dodecahedron2Geometry = new THREE.DodecahedronGeometry(45);
-const dodecahedron2Material = new THREE.PointsMaterial({});
-const dodecahedron2 = new THREE.Points(dodecahedron2Geometry, dodecahedron2Material);
-scene.add(dodecahedron2);
-dodecahedron2.position.set(0, 0, -100);
-dodecahedron2.castShadow = true;
+const icosahedron2Geometry = new THREE.IcosahedronGeometry(45, 1);
+const icosahedron2Material = new THREE.PointsMaterial({});
+const icosahedron2 = new THREE.Points(icosahedron2Geometry, icosahedron2Material);
+scene.add(icosahedron2);
+icosahedron2.position.set(0, 0, -100);
+icosahedron2.castShadow = true;
 
-const dodecahedron2Edges = new THREE.EdgesGeometry(dodecahedron2Geometry);
-const dodecahedron2EdgesMaterial = new THREE.LineBasicMaterial({
+const icosahedron2Edges = new THREE.EdgesGeometry(icosahedron2Geometry);
+const icosahedron2EdgesMaterial = new THREE.LineBasicMaterial({
   color: 0xffffff,
   linewidth: 2
 });
-const dodecahedron2EdgeLines = new THREE.LineSegments(dodecahedron2Edges, dodecahedron2EdgesMaterial);
-scene.add(dodecahedron2EdgeLines);
-dodecahedron2EdgeLines.position.set(0, 0, -100)
+const icosahedron2EdgeLines = new THREE.LineSegments(icosahedron2Edges, icosahedron2EdgesMaterial);
+scene.add(icosahedron2EdgeLines);
+icosahedron2EdgeLines.position.set(0, 0, -100)
 
 const ambientLight = new THREE.AmbientLight(0x404040);
 scene.add(ambientLight);
@@ -63,6 +66,9 @@ scene.add(directionalLight);
 directionalLight.position.set(-30, 50, 0);
 directionalLight.castShadow = true;
 
+// const dLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5);
+// scene.add(dLightHelper);
+
 const composer = new EffectComposer(renderer);
 const renderPass = new RenderPass(scene, camera);
 const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1, 0.2, 0.1);
@@ -70,17 +76,20 @@ const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, windo
 composer.addPass(renderPass);
 composer.addPass(bloomPass);
 
+// Step 1: Create Point Cloud
 const pointCount = 3000;
 const pointsGeometry = new THREE.BufferGeometry();
 const positions = new Float32Array(pointCount * 3); // 3 values (x, y, z) per point
 const colors = new Float32Array(pointCount * 3); // 3 values (r, g, b) per point
 
+// Define an array of predefined colors (as hex values)
 const colorOptions = [
   new THREE.Color(0x0000ff), // Blue
   new THREE.Color(0xff00ff), // Magenta
   new THREE.Color(0xffffff), // White
 ];
 
+// Randomly generate the positions for each point in 3D space
 for (let i = 0; i < pointCount; i++) {
   positions[i * 3] = Math.random() * 100 - 50;  // x position
   positions[i * 3 + 1] = Math.random() * 100 - 50;  // y position
@@ -95,6 +104,7 @@ for (let i = 0; i < pointCount; i++) {
 pointsGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 pointsGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
+// Step 2: Create a PointsMaterial
 const pointsMaterial = new THREE.PointsMaterial({
   size: 0.05,
   vertexColors: true, // Enable vertex colors (important for individual point colors)
@@ -102,20 +112,22 @@ const pointsMaterial = new THREE.PointsMaterial({
   opacity: 0.8
 });
 
+// Step 3: Create the Points object and add it to the scene
 const pointCloud = new THREE.Points(pointsGeometry, pointsMaterial);
 scene.add(pointCloud);
 pointCloud.position.set(0, 0, -20); // Ensure the point cloud is in the same area as other objects
 
+// Animation loop
 function animate() {
-  dodecahedron.rotation.y += 0.002;
-  dodecahedron2.rotation.y += 0.002;
-  dodecahedron2EdgeLines.rotation.y += 0.002;
-  dodecahedron.rotation.x += 0.002;
-  dodecahedron2.rotation.x += 0.002;
-  dodecahedron2EdgeLines.rotation.x += 0.002;
-  dodecahedron.rotation.z += 0.002;
-  dodecahedron2.rotation.z += 0.002;
-  dodecahedron2EdgeLines.rotation.z += 0.002;
+  icosahedron.rotation.y += 0.002;
+  icosahedron2.rotation.y += 0.002;
+  icosahedron2EdgeLines.rotation.y += 0.002;
+  icosahedron.rotation.x += 0.002;
+  icosahedron2.rotation.x += 0.002;
+  icosahedron2EdgeLines.rotation.x += 0.002;
+  icosahedron.rotation.z += 0.002;
+  icosahedron2.rotation.z += 0.002;
+  icosahedron2EdgeLines.rotation.z += 0.002;
   sphere.rotation.y -= 0.002;
 
   pointCloud.rotation.x += 0.002; // Rotate the point cloud to give some motion
@@ -134,25 +146,34 @@ window.addEventListener("resize", function () {
 
 $(document).ready(function () {
   $("#enter").on("click", function () {
+    // Target position (zoom level)
     var targetZ = -89;
+    // Duration for the zoom effect in milliseconds
     var duration = 5000; // 5 seconds
     var fadeduration = 1000;
     var startZ = camera.position.z;
     var startTime = performance.now();
 
+    // Fade out the text element (enterdiv)
     $("#enterdiv").fadeOut(fadeduration);
 
+    // Animation function for zoom
     function animateZoom() {
       var elapsed = performance.now() - startTime;
       var progress = Math.min(elapsed / duration, 1); // Ensure progress doesn't exceed 1
 
+      // Linearly interpolate the Z position for camera zoom
       camera.position.z = THREE.MathUtils.lerp(startZ, targetZ, progress);
 
+      // Continue animating if the progress is less than 1
       if (progress < 1) {
         requestAnimationFrame(animateZoom);
       }
     }
 
+    // Start the zoom animation
     animateZoom();
   });
 });
+
+
