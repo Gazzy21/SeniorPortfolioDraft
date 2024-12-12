@@ -35,7 +35,8 @@ const icosahedronGeometry = new THREE.IcosahedronGeometry(45, 1);
 const icosahedronMaterial = new THREE.MeshBasicMaterial({
   color: 0xAFFA,
   transparent: true,
-  opacity: 0.3
+  opacity: 0.3,
+  side: THREE.DoubleSide
 });
 const icosahedron = new THREE.Mesh(icosahedronGeometry, icosahedronMaterial);
 scene.add(icosahedron);
@@ -145,9 +146,16 @@ window.addEventListener("resize", function () {
 });
 
 $(document).ready(function () {
+  function showLoadingScreen() {
+    $(".splash-wrapper").fadeIn(1500); // Fade in the loading screen
+  }
+
+  function hideLoadingScreen() {
+    $(".splash-wrapper").fadeOut(1500); // Fade out the loading screen
+  }
 
   setTimeout(function () {
-    $('.splash-wrapper img').fadeIn(500);
+    hideLoadingScreen(); // Initially hide the loading screen
   }, 3000);
 
   $("#enter").on("click", function () {
@@ -173,6 +181,10 @@ $(document).ready(function () {
       // Continue animating if the progress is less than 1
       if (progress < 1) {
         requestAnimationFrame(animateZoom);
+      } else {
+        // Show loading screen again when zoom animation ends
+        showLoadingScreen();
+
       }
     }
 
@@ -180,5 +192,3 @@ $(document).ready(function () {
     animateZoom();
   });
 });
-
-

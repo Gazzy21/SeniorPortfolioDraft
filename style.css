@@ -66,14 +66,14 @@ div#loader-container img {
 }
 
 
-@keyframes slideOut {
+/* @keyframes slideOut {
   from {
     margin-left: 0vw;
   }
   to {
     margin-left: -100vw;
   }
-}
+} */
 @media screen and (max-width:767px) {
 div#loader-container {
   background-size: cover;
