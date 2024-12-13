@@ -17,7 +17,7 @@ canvas {
     border-radius: 1vw;
     height: 35vh;
     width: 25vw;
-    top: 50%;
+    top: 25%;
     left: 10%;
     background-image: url("imgs/me.jpg");
     background-size: 100% 100%;  /* Stretch the image to fill the div */
@@ -35,7 +35,7 @@ canvas {
     border-radius: 1vw;
     height: 35vh;
     width: 35vw;
-    top: 50%;
+    top: 25%;
     right: 10%;
   }
 
