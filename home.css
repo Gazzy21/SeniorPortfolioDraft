@@ -1,0 +1,203 @@
+body {
+  margin: 0;
+  background-color: grey;
+}
+
+canvas {
+  display: block;
+}
+
+.maindiv {
+    position: absolute;
+    color: white;
+    border: 5px solid white;
+    background-color: #1e1e1f;
+    font-size: 50px;
+    z-index: 10;
+    border-radius: 1vw;
+    height: 35vh;
+    width: 25vw;
+    top: 50%;
+    left: 10%;
+    background-image: url("imgs/me.jpg");
+    background-size: 100% 100%;  /* Stretch the image to fill the div */
+    background-repeat: no-repeat;
+    background-position: center center;  /* Center the image within the div */
+  }  
+
+.maindiv2 {
+    position: absolute;
+    color: white;
+    border: 5px solid white;
+    background-color: #1e1e1f;
+    font-size: 50px;
+    z-index: 10;
+    border-radius: 1vw;
+    height: 35vh;
+    width: 35vw;
+    top: 50%;
+    right: 10%;
+  }
+
+.headinghr {
+  border: 1px solid white;
+  margin: 0;
+}
+
+.headingnametext {
+  font-size: 5vw;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000;
+  font-family: "Orbitron", sans-serif;
+  margin: 0;
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+.headingnametext:hover {
+  animation-name: spaceOut;
+  animation-duration: 1.75s;
+  animation-direction: alternate;
+  animation-fill-mode: forwards;
+}
+
+@keyframes spaceOut {
+  from {
+    letter-spacing: normal;
+  }
+  to {
+    letter-spacing: 2vw;
+  }
+}
+
+.headingtext {
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000;
+  transition: all 0.35s ease-in-out;
+  color: white;
+}
+
+.headingtext:hover {
+  color: black;
+  text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff,
+    1px 1px 0 #ffffff;
+}
+
+div#loader-container img {
+  max-width: 500px;
+}
+/* Loader animation styles */
+.splash-wrapper {
+  display: none; /* Initially hidden */
+  position: fixed;
+  z-index: 9999;
+  background: url("imgs/boxloader.png") no-repeat center center; /* Correct usage of background property */
+  background-size: cover; /* Ensures the image covers the entire area */
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  animation-name: slideOut;
+  animation-fill-mode: forwards;
+  animation-duration: 0.65s;
+  animation-delay: 5s;
+  top: 0;
+}
+
+/* @keyframes slideOut {
+    from {
+      margin-left: 0vw;
+    }
+    to {
+      margin-left: -100vw;
+    }
+  } */
+@media screen and (max-width: 767px) {
+  div#loader-container {
+    background-size: cover;
+  }
+  div#loader-container img {
+    max-width: 300px;
+  }
+}
+
+.loader {
+  color: #fff;
+  display: inline-block;
+  position: relative;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 48px;
+  letter-spacing: 4px;
+  box-sizing: border-box;
+}
+.loader::before {
+  content: "";
+  position: absolute;
+  right: 68px;
+  bottom: 21px;
+  height: 24px;
+  width: 7px;
+  outline: 1px solid #fff;
+  color: #00ff80;
+  box-sizing: border-box;
+  animation: animloader1 1s linear infinite alternate;
+}
+.loader::after {
+  content: "";
+  width: 4px;
+  height: 4px;
+  background: #00ff80;
+  position: absolute;
+  right: 70px;
+  top: 8px;
+  box-sizing: border-box;
+  animation: animloader 1s ease-out infinite alternate;
+}
+
+@keyframes animloader {
+  0% {
+    top: 8px;
+    transform: rotate(0deg) scale(1);
+  }
+  100% {
+    top: 0px;
+    transform: rotate(180deg) scale(1.5);
+  }
+}
+
+@keyframes animloader1 {
+  0% {
+    box-shadow: 0 0 inset;
+  }
+  100% {
+    box-shadow: 0 -28px inset;
+  }
+}
+
+.menudiv {
+  display: none;
+  color: white;
+  text-align: center;
+}
+
+.menuHeader {
+  font-family: "Orbitron", sans-serif;
+  font-size: 8vw;
+}
+
+.menuItem {
+  color: white;
+  font-size: 3vw;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000;
+  transition: 0.35s ease-in-out;
+  text-decoration: none;
+}
+
+.menuItem:hover {
+  color: black;
+  text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff,
+    1px 1px 0 #ffffff;
+  cursor: pointer;
+}

@@ -59,6 +59,12 @@ $(document).ready(function () {
     $(".splash-wrapper").fadeOut(1500); // Fade out the loading screen
   }
 
+  function showMenuScreen() {
+    $(".splash-wrapper").fadeIn(1500);
+    $(".loader").hide();
+    $(".menudiv").show();
+  }
+
   setTimeout(function () {
     hideLoadingScreen(); // Initially hide the loading screen
   }, 3000);
@@ -87,8 +93,10 @@ $(document).ready(function () {
       if (progress < 1) {
         requestAnimationFrame(animateZoom);
       } else {
-        // Show loading screen again when zoom animation ends
-        showLoadingScreen();
+        // Wait for 1 second before showing the menu screen
+        setTimeout(function() {
+          showMenuScreen();
+        }, 350); 
       }
     }
 
