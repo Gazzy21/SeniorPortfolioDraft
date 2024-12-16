@@ -2,7 +2,6 @@ import * as THREE from "https://esm.sh/three";
 import { EffectComposer } from 'https://esm.sh/three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'https://esm.sh/three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'https://esm.sh/three/examples/jsm/postprocessing/UnrealBloomPass.js';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 const renderer = new THREE.WebGLRenderer();
 renderer.shadowMap.enabled = true;
@@ -20,15 +19,19 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.set(0, 0, 10); // Adjusted position for better view of the scene
 
-// Ambient Light
+// const axesHelper = new THREE.AxesHelper(5);
+// scene.add(axesHelper);
+
 const ambientLight = new THREE.AmbientLight(0x404040);
 scene.add(ambientLight);
 
-// Directional Light
 const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
 scene.add(directionalLight);
 directionalLight.position.set(-30, 50, 0);
 directionalLight.castShadow = true;
+
+// const dLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5);
+// scene.add(dLightHelper);
 
 const composer = new EffectComposer(renderer);
 const renderPass = new RenderPass(scene, camera);

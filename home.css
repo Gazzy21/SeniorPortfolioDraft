@@ -7,37 +7,15 @@ canvas {
   display: block;
 }
 
-.maindiv {
-    position: absolute;
-    color: white;
-    border: 5px solid white;
-    background-color: #1e1e1f;
-    font-size: 50px;
-    z-index: 10;
-    border-radius: 1vw;
-    height: 35vh;
-    width: 25vw;
-    top: 25%;
-    left: 10%;
-    background-image: url("imgs/me.jpg");
-    background-size: 100% 100%;  /* Stretch the image to fill the div */
-    background-repeat: no-repeat;
-    background-position: center center;  /* Center the image within the div */
-  }  
-
-.maindiv2 {
-    position: absolute;
-    color: white;
-    border: 5px solid white;
-    background-color: #1e1e1f;
-    font-size: 50px;
-    z-index: 10;
-    border-radius: 1vw;
-    height: 35vh;
-    width: 35vw;
-    top: 25%;
-    right: 10%;
-  }
+.headingdiv {
+  position: absolute;
+  top: 88%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 50px;
+  z-index: 10;
+}
 
 .headinghr {
   border: 1px solid white;
@@ -106,13 +84,13 @@ div#loader-container img {
 }
 
 /* @keyframes slideOut {
-    from {
-      margin-left: 0vw;
-    }
-    to {
-      margin-left: -100vw;
-    }
-  } */
+  from {
+    margin-left: 0vw;
+  }
+  to {
+    margin-left: -100vw;
+  }
+} */
 @media screen and (max-width: 767px) {
   div#loader-container {
     background-size: cover;
@@ -199,5 +177,6 @@ div#loader-container img {
   color: black;
   text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff,
     1px 1px 0 #ffffff;
-  cursor: pointer;
+    cursor: pointer;
 }
+
