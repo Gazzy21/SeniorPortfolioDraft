@@ -7,14 +7,53 @@ canvas {
   display: block;
 }
 
-.headingdiv {
+.maindiv {
   position: absolute;
-  top: 88%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 30%;
+  left: 5%;
   color: white;
+  border: 5px solid black;
+  border-radius: 10px;
   font-size: 50px;
   z-index: 10;
+  background-color: rgb(42, 42, 42);
+  background-image: url("imgs/me.jpg");
+  background-position: center;
+  background-size: cover;
+  height: 35vh;
+  width: 30vw;
+}
+
+.maindiv2 {
+  position: absolute;
+  top: 20%;
+  right: 5%;
+  color: white;
+  border: 5px solid black;
+  border-radius: 10px;
+  font-size: 50px;
+  z-index: 10;
+  background-color: rgb(33, 33, 33);
+  background-position: center;
+  background-size: cover;
+  height: 15vh;
+  width: 55vw;
+}
+
+.maindiv3 {
+  position: absolute;
+  bottom: 20%;
+  right: 5%;
+  color: white;
+  border: 5px solid black;
+  border-radius: 10px;
+  font-size: 50px;
+  z-index: 10;
+  background-color: rgb(33, 33, 33);
+  background-position: center;
+  background-size: cover;
+  height: 35vh;
+  width: 55vw;
 }
 
 .headinghr {
