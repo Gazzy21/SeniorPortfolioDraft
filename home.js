@@ -3,9 +3,10 @@ import { EffectComposer } from 'https://esm.sh/three/examples/jsm/postprocessing
 import { RenderPass } from 'https://esm.sh/three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'https://esm.sh/three/examples/jsm/postprocessing/UnrealBloomPass.js';
 
+// Renderer setup
 const renderer = new THREE.WebGLRenderer();
 renderer.shadowMap.enabled = true;
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(window.innerWidth, document.body.clientHeight);
 document.body.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
@@ -13,11 +14,52 @@ scene.background = new THREE.Color(0x303030);
 
 const camera = new THREE.PerspectiveCamera(
   75,
-  window.innerWidth / window.innerHeight,
+  window.innerWidth / document.body.clientHeight,
   0.1,
   1000
 );
-camera.position.set(0, 0, 10); // Adjusted position for better view of the scene
+camera.position.set(0, 0, 0);
+
+// Step 1: Create Point Cloud
+const pointCount = 3000;
+const pointsGeometry = new THREE.BufferGeometry();
+const positions = new Float32Array(pointCount * 3); // 3 values (x, y, z) per point
+const colors = new Float32Array(pointCount * 3); // 3 values (r, g, b) per point
+
+// Define an array of predefined colors (as hex values)
+const colorOptions = [
+  new THREE.Color(0x0000ff), // Blue
+  new THREE.Color(0xff00ff), // Magenta
+  new THREE.Color(0xffffff), // White
+];
+
+// Randomly generate the positions for each point in 3D space
+for (let i = 0; i < pointCount; i++) {
+  positions[i * 3] = Math.random() * 100 - 50;  // x position
+  positions[i * 3 + 1] = Math.random() * 100 - 50;  // y position
+  positions[i * 3 + 2] = Math.random() * 100 - 50;  // z position
+
+  const randomColor = colorOptions[Math.floor(Math.random() * colorOptions.length)];
+  colors[i * 3] = randomColor.r; // red
+  colors[i * 3 + 1] = randomColor.g; // green
+  colors[i * 3 + 2] = randomColor.b; // blue
+}
+
+pointsGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+pointsGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+// Step 2: Create a PointsMaterial
+const pointsMaterial = new THREE.PointsMaterial({
+  size: 0.075,
+  vertexColors: true, // Enable vertex colors (important for individual point colors)
+  transparent: true,
+  opacity: 0.8
+});
+
+// Step 3: Create the Points object and add it to the scene
+const pointCloud = new THREE.Points(pointsGeometry, pointsMaterial);
+scene.add(pointCloud);
+pointCloud.position.set(0, 0, -20); // Ensure the point cloud is in the same area as other objects
 
 // const axesHelper = new THREE.AxesHelper(5);
 // scene.add(axesHelper);
@@ -42,6 +84,8 @@ composer.addPass(bloomPass);
 
 // Animation loop
 function animate() {
+  pointCloud.rotation.y += 0.002; // Rotate the point cloud to give some motion
+
   composer.render();
 }
 
