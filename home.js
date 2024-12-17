@@ -116,39 +116,4 @@ $(document).ready(function () {
   setTimeout(function () {
     hideLoadingScreen(); // Initially hide the loading screen
   }, 3000);
-
-  $("#enter").on("click", function () {
-    // Target position (zoom level)
-    var targetZ = -89;
-    // Duration for the zoom effect in milliseconds
-    var duration = 5000; // 5 seconds
-    var fadeduration = 1000;
-    var startZ = camera.position.z;
-    var startTime = performance.now();
-
-    // Fade out the text element (enterdiv)
-    $("#enterdiv").fadeOut(fadeduration);
-
-    // Animation function for zoom
-    function animateZoom() {
-      var elapsed = performance.now() - startTime;
-      var progress = Math.min(elapsed / duration, 1); // Ensure progress doesn't exceed 1
-
-      // Linearly interpolate the Z position for camera zoom
-      camera.position.z = THREE.MathUtils.lerp(startZ, targetZ, progress);
-
-      // Continue animating if the progress is less than 1
-      if (progress < 1) {
-        requestAnimationFrame(animateZoom);
-      } else {
-        // Wait for 1 second before showing the menu screen
-        setTimeout(function() {
-          showMenuScreen();
-        }, 350); 
-      }
-    }
-
-    // Start the zoom animation
-    animateZoom();
-  });
 });
